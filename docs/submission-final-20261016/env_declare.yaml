@@ -1,0 +1,61 @@
+status: key_tiers_audited_other_tiers_pending
+date: "2026-10-16"
+batch_id: VERIFY_FINAL_20261016_01
+hardware:
+  card_type: BW100
+  cards_used: 2
+  physical_device_ids: [2, 3]
+  cu_per_card_reported_by_hy_smi: 64
+  driver_version: "6.3.30-V1.4.1a"
+  cpu_model: "Hygon C86-4G (OPN:7490)"
+  host_shared_with_other_workloads: true
+runtime:
+  image: "harbor.sourcefind.cn:5443/hcu/admin/base/sglang:0.5.12-ubuntu22.04-dtk2604-py3.10"
+  image_id: "sha256:caeff0e9e6efef918a31359c4764b18bf2d428f2b76e3580c788f4cc8b0e93ad"
+  sglang: "0.5.12+das185.dtk2604.torch2100.2608121934.gcbf025"
+  torch: "2.10.0+das.opt1.dtk2604.2608131652.g28498c"
+  triton: "3.6.0+das185.dtk2604.torch2100.2608131719.gb796b1"
+configuration:
+  architecture: IFB
+  tensor_parallel_size: 2
+  kv_dtype: bfloat16
+  ssm_dtype: float32
+  custom_all_reduce: false
+  experimental_nn_gemm_patch: false
+  bf16:
+    container: zk-qwen38
+    model_path_in_container: /data/zk/qwen38/model
+    variant: fa3_hcu_contigfa_eagle314_slots32_no_custom_ar
+    model_config_sha256: "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab"
+  int8:
+    container: zk-qwen38-int8
+    model_path_in_container: /data1/model/Qwen3.8-27B-Channel-INT8-w8a8
+    variant: fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
+    model_config_sha256: "c8c89574834abe1bab2fd76b0ca680399ce0707c20b887d3a4890a04e0101a5e"
+fixed_benchmark:
+  seed: 20260912
+  input_tokens: [4096, 65536]
+  output_tokens: 1024
+  warmup_rounds: 2
+  warmup_requests_each_round: C
+  measured_rounds: 3
+  measured_requests_each_round: "max(8, 2*C)"
+  sla_statistic: mean
+  three_round_pass_definition: each_round_mean_satisfies_both_limits
+  int8_c28_all_rounds_pass: false
+  int8_c28_pooled_mean_pass: true
+  preferred_int8_4k_concurrency_for_stability: 27
+  sla_4k: "TTFT < 5 seconds AND TPOT < 50 milliseconds"
+  sla_64k: "TTFT < 20 seconds AND TPOT < 60 milliseconds"
+accuracy:
+  protocol: local_OpenCompass_GSM8K_v3_4shot_CoT_max16384
+  bf16_correct: 1291
+  int8_correct: 1287
+  total: 1319
+  other_three_benchmarks: deferred_by_user
+  full_official_admission_verified: false
+evidence:
+  remote_root: /data/zk/qwen38/runs
+  model_sha_scope: config_json_only_not_full_weights
+  source_snapshot: VERIFY_FINAL_20261016_01/snapshot
+  raw_requests: per_run_per_phase_requests_jsonl

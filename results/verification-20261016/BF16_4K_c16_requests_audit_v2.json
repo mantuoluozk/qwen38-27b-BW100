@@ -1,0 +1,67 @@
+{
+  "run_id": "VERIFY_FINAL_20261016_01_BF16_4K",
+  "input_len": 4096,
+  "output_len": 1024,
+  "concurrency": 16,
+  "request_records_valid": true,
+  "problems": [],
+  "sla_ttft_limit_s": 5.0,
+  "sla_tpot_limit_ms": 50.0,
+  "all_three_rounds_sla_pass": true,
+  "sla_pass_round_count": 3,
+  "mean_of_round_ttft_mean_s": 4.305293501165579,
+  "mean_of_round_tpot_mean_ms": 28.097548822846885,
+  "pooled_mean_sla_pass": true,
+  "sla_aggregation_note": "Equal measured request counts: pooled request means equal the mean of round means; all-round pass is a stricter stability check, not an asserted official scoring rule",
+  "output_tps_mean_total": 454.8765039489247,
+  "output_tps_mean_per_card": 227.43825197446236,
+  "output_tps_per_card_range": [
+    225.3232990582864,
+    229.59199050803664
+  ],
+  "official_bf16_baseline_per_card_tps": 91.367,
+  "arithmetic_uplift_vs_official_bf16_percent": 148.9282256990624,
+  "baseline_note": "4K uses fixed-tier mean-SLA C8 baseline; 64K uses C1; arithmetic comparison, not an official score",
+  "rounds": [
+    {
+      "round": 1,
+      "requests": 32,
+      "output_tps_total": 459.1839810160733,
+      "output_tps_per_card": 229.59199050803664,
+      "ttft_mean_s": 4.3492658050963655,
+      "tpot_mean_ms": 28.40739407516364,
+      "ttft_p95_s": 11.304680210421793,
+      "tpot_p95_ms": 37.75522809182972,
+      "sla_pass": true
+    },
+    {
+      "round": 2,
+      "requests": 32,
+      "output_tps_total": 454.798932714128,
+      "output_tps_per_card": 227.399466357064,
+      "ttft_mean_s": 4.305815425992478,
+      "tpot_mean_ms": 27.836688684551305,
+      "ttft_p95_s": 11.303684780164621,
+      "tpot_p95_ms": 39.11073390592002,
+      "sla_pass": true
+    },
+    {
+      "round": 3,
+      "requests": 32,
+      "output_tps_total": 450.6465981165728,
+      "output_tps_per_card": 225.3232990582864,
+      "ttft_mean_s": 4.260799272407894,
+      "tpot_mean_ms": 28.04856370882571,
+      "ttft_p95_s": 11.29816976902075,
+      "tpot_p95_ms": 41.36524601948273,
+      "sla_pass": true
+    }
+  ],
+  "request_artifact_sha256": {
+    "fixed-4096-1024-c16/warmup-01/requests.jsonl": "c649578cce2dea5a310bd82fc43c39873020338e56ae4d835c440fcf3ad95443",
+    "fixed-4096-1024-c16/warmup-02/requests.jsonl": "0d45933d9a2453151d583a26701ecd2ba6c0c9008491558b62350ba501605ece",
+    "fixed-4096-1024-c16/round-01/requests.jsonl": "c8a786f3218968d2ed44dc3a4706cce904ccaf17b9d8d646086b51b2fa652b3f",
+    "fixed-4096-1024-c16/round-02/requests.jsonl": "462962d2f1c9e386f597dab71dce6c78d5def2f9b9fbb12c096db40edd3284d1",
+    "fixed-4096-1024-c16/round-03/requests.jsonl": "4c5bacf83be74b46c9eb25c4c634069b106b6a602470b2912480d9e36c26e60c"
+  }
+}
