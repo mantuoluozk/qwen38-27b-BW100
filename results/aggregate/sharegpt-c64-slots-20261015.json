@@ -1,0 +1,43 @@
+{
+  "kind": "PUBLIC_SHAREGPT_SINGLE_ROUND_SCREEN_NOT_OFFICIAL_SCORE",
+  "baseline": {
+    "source": "remote-work\\runs\\SG011\\sharegpt-c64\\round-01.jsonl",
+    "valid": true,
+    "problems": [],
+    "completed": 1000,
+    "concurrency": 64,
+    "duration_s": 355.9792064470239,
+    "output_tps_total": 552.0013428909165,
+    "output_tps_per_card": 276.00067144545824,
+    "ttft_mean_ms": 11232.45349782426,
+    "tpot_mean_ms": 60.999216700101194,
+    "accept_length": 2.916531825016109,
+    "total_input_tokens": 331978,
+    "total_output_tokens": 196501,
+    "input_lengths_sha256": "36196098ce1ef0d6f98daa0711b57da8b92a9beae74db31c8c28b8140761aba2",
+    "ttft_p95_ms": 14948.019910487345,
+    "mean_input_length": 331.978,
+    "mean_output_length": 196.501
+  },
+  "candidate": {
+    "source": "remote-work\\runs\\SG012\\sharegpt-c64\\round-01.jsonl",
+    "valid": true,
+    "problems": [],
+    "completed": 1000,
+    "concurrency": 64,
+    "duration_s": 289.73718911083415,
+    "output_tps_total": 678.2042740285984,
+    "output_tps_per_card": 339.1021370142992,
+    "ttft_mean_ms": 651.3981833504513,
+    "tpot_mean_ms": 106.55278364656431,
+    "accept_length": 2.9142775064636597,
+    "total_input_tokens": 331978,
+    "total_output_tokens": 196501,
+    "input_lengths_sha256": "36196098ce1ef0d6f98daa0711b57da8b92a9beae74db31c8c28b8140761aba2",
+    "ttft_p95_ms": 1775.3330833045766,
+    "mean_input_length": 331.978,
+    "mean_output_length": 196.501
+  },
+  "output_throughput_gain_percent": 22.862794223785343,
+  "accuracy_admission_verified": false
+}

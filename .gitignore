@@ -1,0 +1,11 @@
+# Large/raw runtime artifacts and model weights are kept outside this public summary repository.
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.log
+*.jsonl
+*.prom
+__pycache__/
+.env
+.env.*

@@ -1,0 +1,57 @@
+{
+  "kind": "SAME_MODEL_SINGLE_ROUND_4K_C16_SCREEN_NOT_OFFICIAL_SCORE",
+  "model": "/data1/model/Qwen3.8-27B-Channel-INT8-w8a8",
+  "benchmark_sha256": "08d7e43d2b347f2a2cfef3a577f7db4ab2472b3139939db8a6731b07369c5fc6",
+  "reference_variant": "fa3_slots32_no_custom_ar",
+  "candidate_variant": "fa3_hcu_contigfa_eagle314_slots32_no_custom_ar",
+  "reference": {
+    "source": "remote-work\\runs\\I005\\fixed-4096-1024-c16\\summary.json",
+    "valid": true,
+    "input_len": 4096,
+    "output_len": 1024,
+    "concurrency": 16,
+    "round_count": 1,
+    "old_sla_p95_all_rounds": false,
+    "new_sla_mean_all_rounds": true,
+    "new_sla_p95_all_rounds": false,
+    "rounds": [
+      {
+        "output_tps_total": 367.7883439893,
+        "output_tps_per_card": 183.89417199465,
+        "ttft_mean_s": 4.892059409627109,
+        "ttft_p95_s": 8.201960697514005,
+        "tpot_mean_ms": 38.75104708301815,
+        "tpot_p95_ms": 42.21735183404029,
+        "exact": 32,
+        "requests": 32
+      }
+    ],
+    "output_tps_mean_total": 367.7883439893
+  },
+  "candidate": {
+    "source": "remote-work\\runs\\I001\\fixed-4096-1024-c16\\summary.json",
+    "valid": true,
+    "input_len": 4096,
+    "output_len": 1024,
+    "concurrency": 16,
+    "round_count": 1,
+    "old_sla_p95_all_rounds": false,
+    "new_sla_mean_all_rounds": true,
+    "new_sla_p95_all_rounds": false,
+    "rounds": [
+      {
+        "output_tps_total": 555.6209987661948,
+        "output_tps_per_card": 277.8104993830974,
+        "ttft_mean_s": 3.1863192942546448,
+        "ttft_p95_s": 8.51200073347427,
+        "tpot_mean_ms": 23.663282063541583,
+        "tpot_p95_ms": 33.058400297098636,
+        "exact": 32,
+        "requests": 32
+      }
+    ],
+    "output_tps_mean_total": 555.6209987661948
+  },
+  "output_throughput_gain_percent": 51.07085579154715,
+  "accuracy_admission_verified": false
+}
