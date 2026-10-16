@@ -89,9 +89,9 @@ INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本�
 | BF16 slots32 | C64 | 552.00 | 276.00 | 11232.45ms | 61.00ms | 1000/1000 | SG011 |
 | INT8 slots64 | C64 | **797.94** | **398.97** | 557.75ms | 90.59ms | 1000/1000 | I004 |
 
-按此前约定，INT8 的 ShareGPT 只保留 C64，不补跑 C1/C4/C16/C32 的 1000 请求档。BF16 C64 的吞吐与 C32 接近，但 TTFT 明显恶化；不可只看吞吐而忽略时延。INT8 C64 的 [同权重 A/B](results/aggregate/int8-opt-vs-ref-sharegpt-20261015.json) 和 [slots32/64 对照](results/aggregate/int8-slots64-sharegpt-20261015.json) 已在仓库中；BF16 C32/C64 的 [审计汇总](results/aggregate/sharegpt-slots32-20261014.json)与[槽位对照](results/aggregate/sharegpt-c64-slots-20261015.json)另附。
+按此前约定，INT8 的 ShareGPT 只保留 C64；若要与 BF16 一样形成完整的五档矩阵，尚缺 INT8 C1/C4/C16/C32 的 1000 请求测试。BF16 C64 的吞吐与 C32 接近，但 TTFT 明显恶化；不可只看吞吐而忽略时延。INT8 C64 的 [同权重 A/B](results/aggregate/int8-opt-vs-ref-sharegpt-20261015.json) 和 [slots32/64 对照](results/aggregate/int8-slots64-sharegpt-20261015.json) 已在仓库中；BF16 C32/C64 的 [审计汇总](results/aggregate/sharegpt-slots32-20261014.json)与[槽位对照](results/aggregate/sharegpt-c64-slots-20261015.json)另附。
 
-官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。本表 BF16 同档算术提升依次为 **+184.72%/+88.57%/+36.78%/+26.75%/+4.51%**；由于公开数据文件身份和轮数尚未与官方完全对齐，这些只是参考对照，不是正式榜单提升率。
+官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。本表 BF16 同档算术提升依次为 **+184.72%/+88.57%/+36.78%/+26.75%/+4.51%**。现有 INT8 C64 的双卡 **797.9416 tok/s**，对同档官方 **BF16** 基线 **528.158 tok/s** 的算术提升为 **+51.08%**（单卡 398.9708 对 264.0790 tok/s，比例相同）；这是**跨权重、条件性的官方基线对照**，不同于上文相对同 INT8 权重参考组的 **+48.29%**。由于公开数据文件身份和轮数尚未与官方完全对齐，且官方 INT8 性能分母未明确，这些只是参考对照，不是正式榜单提升率。
 
 ## 尚未完成的验证
 
