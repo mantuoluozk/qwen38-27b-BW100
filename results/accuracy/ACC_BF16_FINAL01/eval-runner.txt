@@ -1,0 +1,16 @@
+eval_start=2026-10-16T12:11:55+08:00
+kind=full-GSM8K-1319-local-v3
+precision=bf16
+measure_rounds=1
+client_concurrency=4
+max_out_tokens=16384
+container=zk-qwen38
+selected_devices=2,3
+b9e162019f0e86e76a32e7952ae239d375962b52768bb3eb6c6a99414cc44bd1  /data/zk/qwen38/scripts/gsm8k_eval_final_bf16.py
+0db4f55c6fa6b5736d8a8ed85d8a9946f2f0822627f2a5fa42a953af30436d9d  /data/zk/qwen38/scripts/gsm8k_eval_v2.py
+02a78de0232fb760cf2157ead540dd1c26c7688a884c6adc0faf9e6e13aef068  /data/zk/qwen38/scripts/gsm8k_eval_4shot.py
+b57785f0acd8fbd9c148718adf1e004244749ae9001e5cb5da43d50726374c27  /data/zk/qwen38/scripts/gsm8k_protocol_v2.py
+cca6171d6dd4a1fb0dc54fa1da7bb617c9c64bcb95e5181d04596153c4949ba0  /data/zk/qwen38/scripts/audited_sglang_sdk.py
+9ed18ba238f8286c1153e4633aa73c6be8a810651fd31cd75977fb1b1c90b843  /data/zk/qwen38/scripts/summarize_gsm8k_screen.py
+eval_end=2026-10-16T13:39:53+08:00
+runner_status=0

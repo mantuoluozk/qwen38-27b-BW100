@@ -1,0 +1,275 @@
+{
+  "run_dir": "/data/zk/qwen38/runs/ACC_BF16_FINAL01",
+  "protocol_valid": true,
+  "problems": [],
+  "kind": "FULL_TEST_LOCAL_PROTOCOL_NOT_OFFICIAL_ADMISSION",
+  "accuracy_admission_verified": false,
+  "accuracy_percent": 97.87717968157695,
+  "correct": 1291,
+  "evaluated": 1319,
+  "audit_responses": 1319,
+  "finish_reasons": {
+    "stop": 1319
+  },
+  "empty_content_count": 0,
+  "cap_hit_count": 0,
+  "max_prompt_tokens": 1648,
+  "max_completion_tokens": 12345,
+  "total_prompt_tokens": 2006134,
+  "total_completion_tokens": 672562,
+  "messages_multiset_sha256": "4fa79cd6f623e050844ed0de409aeece998b0361f3ae7d60c4a4a4c9523ce7af",
+  "wrong_examples": [
+    {
+      "example": "gsm8k-full-final-16384_test_12",
+      "prediction": [
+        "12"
+      ],
+      "reference": [
+        "13"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_119",
+      "prediction": [
+        "99076.92"
+      ],
+      "reference": [
+        "95200"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_182",
+      "prediction": [
+        "24"
+      ],
+      "reference": [
+        "23"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_306",
+      "prediction": [
+        "5"
+      ],
+      "reference": [
+        "10"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_368",
+      "prediction": [
+        "10"
+      ],
+      "reference": [
+        "18"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_403",
+      "prediction": [
+        "135"
+      ],
+      "reference": [
+        "81"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_406",
+      "prediction": [
+        "240"
+      ],
+      "reference": [
+        "200"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_454",
+      "prediction": [
+        "240"
+      ],
+      "reference": [
+        "150"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_549",
+      "prediction": [
+        "199"
+      ],
+      "reference": [
+        "398"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_649",
+      "prediction": [
+        "160000"
+      ],
+      "reference": [
+        "162000"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_675",
+      "prediction": [
+        "17"
+      ],
+      "reference": [
+        "33"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_749",
+      "prediction": [
+        "6"
+      ],
+      "reference": [
+        "3"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_768",
+      "prediction": [
+        "600"
+      ],
+      "reference": [
+        "675"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_782",
+      "prediction": [
+        "27"
+      ],
+      "reference": [
+        "54"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_796",
+      "prediction": [
+        "3120000"
+      ],
+      "reference": [
+        "2880000"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_814",
+      "prediction": [
+        "17"
+      ],
+      "reference": [
+        "11"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_823",
+      "prediction": [
+        "18"
+      ],
+      "reference": [
+        "14"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_830",
+      "prediction": [
+        "18.8"
+      ],
+      "reference": [
+        "1128"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_951",
+      "prediction": [
+        "150"
+      ],
+      "reference": [
+        "300"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_952",
+      "prediction": [
+        "1800"
+      ],
+      "reference": [
+        "360"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_984",
+      "prediction": [
+        "168"
+      ],
+      "reference": [
+        "342"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_990",
+      "prediction": [
+        "4"
+      ],
+      "reference": [
+        "14"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1001",
+      "prediction": [
+        "00"
+      ],
+      "reference": [
+        "2"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1042",
+      "prediction": [
+        "3.50"
+      ],
+      "reference": [
+        "3"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1048",
+      "prediction": [
+        "9860.78"
+      ],
+      "reference": [
+        "7400"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1161",
+      "prediction": [
+        "140"
+      ],
+      "reference": [
+        "170"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1176",
+      "prediction": [
+        "1"
+      ],
+      "reference": [
+        "2"
+      ]
+    },
+    {
+      "example": "gsm8k-full-final-16384_test_1309",
+      "prediction": [
+        "2180"
+      ],
+      "reference": [
+        "2280"
+      ]
+    }
+  ]
+}

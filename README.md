@@ -97,9 +97,20 @@ INT8 的五档 ShareGPT 单轮筛选现已齐全。[I015/I004 逐档审计汇总
 
 官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。表格的提升比例均按**同一并发档**计算，双卡与单卡比例相同；因此 INT8 五行明确表示**相对官方 BF16 同档基线的算术提升**，不是“同 INT8 权重优化前后”的收益。例如 C64 的 **+51.08%** 不同于上文相对同 INT8 权重参考组的 **+48.29%**。由于公开数据文件身份和轮数尚未与官方完全对齐，且官方 INT8 性能分母未明确，这些只是参考对照，不是正式榜单提升率。
 
+## 最终候选的 GSM8K 精度
+
+2026-10-16 已分别完成 BF16 slots32 与官方 INT8 slots64 的完整 GSM8K 测试，均使用 IFB TP2、禁用 custom all-reduce。评测采用固定 OpenCompass 客户端与本地 v3 协议：完整 test 1319 题、4-shot CoT、temperature 0、seed 0、客户端并发 4、生成上限 16384。两次使用相同数据、提示、答案后处理与审计脚本，提示消息指纹一致。
+
+| 最终候选 | 正确 / 总题数 | 准确率 | 相对 BF16 的准确率变化 | 正常结束 / 截断 | 严格协议审计 | 证据 |
+|---|---:|---:|---:|---:|---|---|
+| BF16 slots32 | 1291 / 1319 | **97.8772%** | — | 1319 / 0 | 通过 | [ACC_BF16_FINAL01](results/accuracy/ACC_BF16_FINAL01/accuracy-full-v3-audit-summary.json) |
+| INT8 slots64 | 1287 / 1319 | **97.5739%** | **−0.3033 个百分点** | 1319 / 0 | 通过 | [ACC_INT8_FINAL01](results/accuracy/ACC_INT8_FINAL01/accuracy-full-v3-audit-summary.json) |
+
+两套结果均无空响应，`protocol_valid=true`、`problems=[]`，runner 均以状态 0 结束。两者均高于所提供赛题的 GSM8K 95.0% 门槛；这是本地固定协议下的 GSM8K 结果，尚不能据此宣布官方四项精度准入全部完成。旧 E013 采用 8192 生成上限并存在截断，本表以最终候选的新评测为准。完整逐请求响应与服务日志保存在实验机对应运行目录，仓库附审计摘要与 runner 时间戳、脚本哈希记录。
+
 ## 尚未完成的验证
 
-- BF16 的完整精度准入尚未在最终 slots32 配置上完成；既有 GSM8K 结果属于另一配置且严格协议存在截断，**不可移植为本配置的精度证明**。INT8 尚未做完整精度评测。最终性能方案确定后再分别验证两种权重。
+- BF16 与 INT8 最终候选的全量 GSM8K 已完成并通过本地协议审计；LiveCodeBench v6、RealWorldQA、MathVision 的数据与最终评测配置尚未就绪，仍需完成其余三项并对齐主办方最终口径。
 - 固定长度和 ShareGPT 当前均为 1 轮正式筛选；提交前若要求 3 轮，须在最终配置上重跑，不把单轮统计冒充正式三轮成绩。
 - 本仓库先公开脚本、逐档摘要和审计汇总。完整逐请求 JSONL、服务器日志、硬件快照仍保存在实验工作区，尚未纳入本次公开提交；摘要不能替代正式要求的原始日志。脚本输出 `summary.json` 内静态 `method` 文案仍写“三轮”，应以实际 `measure_rounds: 1`、逐轮记录和 runner 参数为准。
 
@@ -155,5 +166,6 @@ DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
 - [`results/bf16/`](results/bf16/) 和 [`results/int8/`](results/int8/)：本次挑选的逐档 `summary.json`。
 - [`results/aggregate/`](results/aggregate/)：同权重 A/B、slots 比较和 ShareGPT 审计汇总。
 - [`results/peak-evidence/`](results/peak-evidence/)：不混入官方六档主表的额外细扫峰值证据。
+- [`results/accuracy/`](results/accuracy/)：BF16 与 INT8 最终候选的全量 GSM8K 审计摘要与 runner 记录。
 
 _更新：2026-10-16。后续逐步补齐正式多轮、精度、原始日志与提交材料。_
