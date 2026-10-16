@@ -1,0 +1,35 @@
+{
+  "inference_started": false,
+  "policy": "No further benchmarks; current evidence only",
+  "builder_sha256": "feea199458e1ca670b80fa79da0fa14965baa036e23e1cef0c41084ab41e71f7",
+  "packages": [
+    {
+      "precision": "bf16",
+      "archive": "qwen38-bw100-sglang-bf16-20261016.tar.gz",
+      "sha256": "57a9f33aafdaff469197710af1a3ecebe8810899c471bde5d5d185222b639d30",
+      "files": 333,
+      "size_bytes": 8267291,
+      "forum_id": "待填写",
+      "demo_video": "not_recorded",
+      "fixed_tiers": 9,
+      "sharegpt_tiers": 5,
+      "three_round_tiers": 2,
+      "gsm8k_accuracy": 97.87717968157695,
+      "report": "packages/bf16/PERFORMANCE_REPORT.md"
+    },
+    {
+      "precision": "int8",
+      "archive": "qwen38-bw100-sglang-int8-20261016.tar.gz",
+      "sha256": "6bdd6fa7a5a294ef5c3eb21d3a37506bff4413672046db38ff28fed819eaa573",
+      "files": 476,
+      "size_bytes": 10384227,
+      "forum_id": "待填写",
+      "demo_video": "not_recorded",
+      "fixed_tiers": 9,
+      "sharegpt_tiers": 5,
+      "three_round_tiers": 4,
+      "gsm8k_accuracy": 97.57391963608795,
+      "report": "packages/int8/PERFORMANCE_REPORT.md"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "packages": [
+    {
+      "precision": "bf16",
+      "archive": "qwen38-bw100-sglang-bf16-20261016.tar.gz",
+      "all_file_hashes_valid": true,
+      "safe_paths": true,
+      "files": 333,
+      "fixed_tiers": 9,
+      "sharegpt_tiers": 5,
+      "full_gsm8k_audit_valid": true,
+      "historical_sources_sha256_valid": true,
+      "python_syntax_valid": true,
+      "inference_started": false
+    },
+    {
+      "precision": "int8",
+      "archive": "qwen38-bw100-sglang-int8-20261016.tar.gz",
+      "all_file_hashes_valid": true,
+      "safe_paths": true,
+      "files": 476,
+      "fixed_tiers": 9,
+      "sharegpt_tiers": 5,
+      "full_gsm8k_audit_valid": true,
+      "historical_sources_sha256_valid": true,
+      "python_syntax_valid": true,
+      "inference_started": false
+    }
+  ],
+  "forum_id": "待填写",
+  "demo_video": "not_recorded"
+}

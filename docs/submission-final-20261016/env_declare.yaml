@@ -1,4 +1,6 @@
-status: key_tiers_audited_other_tiers_pending
+status: submission_packaged_single_round_full_tiers_three_round_boundaries
+further_benchmarks_planned: false
+policy: preserve_existing_data_no_further_runs
 date: "2026-10-16"
 batch_id: VERIFY_FINAL_20261016_01
 hardware:
