@@ -78,7 +78,7 @@ INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本�
 
 ## ShareGPT 标准数据集
 
-赛题要求测 C1/C4/C16/C32/C64，记录吞吐、TTFT、TPOT 与成功率；**没有为 ShareGPT 单独给出数值 SLA**，不能直接套用随机 4K 的 5s/50ms。下面使用公开 ShareGPT 文件，正式请求每档 1000 条、预热 `2×并发`，目前每档只做 1 轮；官方基线教程写 3 轮，因此下表仍是筛选结果。公开文件是否与主办方最终指定文件完全一致，尚未确认。
+赛题要求测 C1/C4/C16/C32/C64，记录吞吐、TTFT、TPOT 与成功率；**没有为 ShareGPT 单独给出数值 SLA**，不能直接套用随机 4K 的 5s/50ms。下面使用公开 ShareGPT 文件，正式请求每档 1000 条、预热 `2×并发`，目前每档只做 1 轮；官方基线教程写 3 轮，因此下表仍是筛选结果。INT8 C1/C4/C16/C32 来自同一次 I015 运行，C64 来自此前 I004；五档的输入长度指纹和输入/输出 token 总数一致。公开文件是否与主办方最终指定文件完全一致，尚未确认。
 
 | 权重/配置 | 并发 | 双卡输出 tok/s | 单卡输出 tok/s | mean TTFT | mean TPOT | 完成 | 相对官方 BF16 同档基线吞吐 | 原始运行 |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
@@ -87,11 +87,15 @@ INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本�
 | BF16 slots32 | C16 | 420.52 | 210.26 | 285.19ms | 40.05ms | 1000/1000 | **+36.78%** | SG013 |
 | BF16 slots32 | C32 | 552.63 | 276.31 | 461.22ms | 61.42ms | 1000/1000 | **+26.75%** | SG008 |
 | BF16 slots32 | C64 | 552.00 | 276.00 | 11232.45ms | 61.00ms | 1000/1000 | **+4.51%** | SG011 |
+| INT8 slots64 | C1 | 75.21 | 37.61 | 255.32ms | 13.59ms | 1000/1000 | **+250.57%（条件性）** | I015 |
+| INT8 slots64 | C4 | 223.38 | 111.69 | 262.45ms | 19.14ms | 1000/1000 | **+110.33%（条件性）** | I015 |
+| INT8 slots64 | C16 | 432.93 | 216.47 | 295.97ms | 40.06ms | 1000/1000 | **+40.81%（条件性）** | I015 |
+| INT8 slots64 | C32 | 591.76 | 295.88 | 344.34ms | 58.61ms | 1000/1000 | **+35.73%（条件性）** | I015 |
 | INT8 slots64 | C64 | **797.94** | **398.97** | 557.75ms | 90.59ms | 1000/1000 | **+51.08%（条件性）** | I004 |
 
-按此前约定，INT8 的 ShareGPT 只保留 C64；若要与 BF16 一样形成完整的五档矩阵，尚缺 INT8 C1/C4/C16/C32 的 1000 请求测试。BF16 C64 的吞吐与 C32 接近，但 TTFT 明显恶化；不可只看吞吐而忽略时延。INT8 C64 的 [同权重 A/B](results/aggregate/int8-opt-vs-ref-sharegpt-20261015.json) 和 [slots32/64 对照](results/aggregate/int8-slots64-sharegpt-20261015.json) 已在仓库中；BF16 C32/C64 的 [审计汇总](results/aggregate/sharegpt-slots32-20261014.json)与[槽位对照](results/aggregate/sharegpt-c64-slots-20261015.json)另附。
+INT8 的五档 ShareGPT 单轮筛选现已齐全。[I015/I004 逐档审计汇总](results/aggregate/int8-sharegpt-five-tiers-20261016.json)记录了精确吞吐、完成数、时延、样本指纹与原始文件哈希；完整 JSONL 和服务器日志保存在实验档案中。I004 与 I015 的启动脚本 SHA 不同，虽然记录的模型、镜像和主要启动参数一致，正式提交前仍应在同一最终代码快照下重跑完整五档。BF16 C64 的吞吐与 C32 接近，但 TTFT 明显恶化；不可只看吞吐而忽略时延。INT8 C64 的 [同权重 A/B](results/aggregate/int8-opt-vs-ref-sharegpt-20261015.json) 和 [slots32/64 对照](results/aggregate/int8-slots64-sharegpt-20261015.json) 已在仓库中；BF16 C32/C64 的 [审计汇总](results/aggregate/sharegpt-slots32-20261014.json)与[槽位对照](results/aggregate/sharegpt-c64-slots-20261015.json)另附。
 
-官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。本表 BF16 同档算术提升依次为 **+184.72%/+88.57%/+36.78%/+26.75%/+4.51%**。现有 INT8 C64 的双卡 **797.9416 tok/s**，对同档官方 **BF16** 基线 **528.158 tok/s** 的算术提升为 **+51.08%**（单卡 398.9708 对 264.0790 tok/s，比例相同）；这是**跨权重、条件性的官方基线对照**，不同于上文相对同 INT8 权重参考组的 **+48.29%**。由于公开数据文件身份和轮数尚未与官方完全对齐，且官方 INT8 性能分母未明确，这些只是参考对照，不是正式榜单提升率。
+官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。表格的提升比例均按**同一并发档**计算，双卡与单卡比例相同。INT8 五行使用官方 **BF16** 基线作跨权重、条件性的分母；它们不是“同 INT8 权重优化前后”的收益，例如 C64 的 **+51.08%** 不同于上文相对同 INT8 权重参考组的 **+48.29%**。由于公开数据文件身份和轮数尚未与官方完全对齐，且官方 INT8 性能分母未明确，这些只是参考对照，不是正式榜单提升率。
 
 ## 尚未完成的验证
 
@@ -131,14 +135,14 @@ DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
   bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
 
-# ShareGPT：须先核对公开文件哈希，用户当前仅要求 INT8 C64
+# ShareGPT：须先核对公开文件哈希；两种权重的五档现均有单轮数据
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38 SHAREGPT_ROUNDS=1 \
   SHAREGPT_CONCURRENCIES='1 4 16 32 64' \
   bash /data/zk/qwen38/scripts/run_sharegpt_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots32_no_custom_ar
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
   MODEL_PATH=/data1/model/Qwen3.8-27B-Channel-INT8-w8a8 \
-  SERVED_MODEL_NAME=qwen38-int8 SHAREGPT_ROUNDS=1 SHAREGPT_CONCURRENCIES='64' \
+  SERVED_MODEL_NAME=qwen38-int8 SHAREGPT_ROUNDS=1 SHAREGPT_CONCURRENCIES='1 4 16 32 64' \
   bash /data/zk/qwen38/scripts/run_sharegpt_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
 ```
