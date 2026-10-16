@@ -17,18 +17,24 @@ FA3、HCU KV layout、连续 FA、EAGLE 和槽位设置是**组合优化**，下
 
 ## 固定长度：4K 输入 / 1K 输出
 
-吞吐是实际输出 token/s；双卡合计除以 2 得单卡值。当前使用主办方澄清后的**均值**工作 SLA：TTFT `<5s` 且 TPOT `<50ms`。每档 2 轮预热、1 轮正式；正式请求数 `max(8, 2×并发)`，要求请求全部成功且输入/输出 token 数精确。下表中的“最高”只指**已测单轮档位**，不代表长期稳定性或未测档位的全局最优。
+吞吐是实际输出 token/s；双卡合计除以 2 得单卡值。当前使用主办方澄清后的**均值**工作 SLA：TTFT `<5s` 且 TPOT `<50ms`。每档 2 轮预热、1 轮正式；正式请求数 `max(8, 2×并发)`，要求请求全部成功且输入/输出 token 数精确。按 C1/2/4/8/16/32 递增观察，C32 不满足后不再向上测试。本表只展示这六档；内部细扫记录仍在实验档案，不与官方离散档混排。
 
 | 权重/配置 | 并发 | 双卡输出 tok/s | 单卡输出 tok/s | mean TTFT | mean TPOT | 工作 SLA | 证据 |
 |---|---:|---:|---:|---:|---:|---|---|
-| BF16 slots32 | C16 | 459.35 | **229.67** | 4.346s | 28.40ms | 通过，32/32 精确；最高已测有效吞吐 | [`F026`](results/bf16/F026/fixed-4096-1024-c16/summary.json) |
-| BF16 slots32 | C18 | 390.26 | 195.13 | 4.858s | 38.15ms | 通过，36/36 精确；最高已测通过并发 | [`F027`](results/bf16/F027/fixed-4096-1024-c18/summary.json) |
-| BF16 slots32 | C19 | 470.71 | 235.36 | 5.021s | 32.61ms | 未通过 TTFT | [`F027`](results/bf16/F027/fixed-4096-1024-c19/summary.json) |
-| INT8 slots64 | C27 | 699.21 | 349.60 | 4.823s | 31.58ms | 通过，54/54 精确；备选 | [`I011`](results/int8/I011/fixed-4096-1024-c27/summary.json) |
-| INT8 slots64 | C28 | 714.25 | **357.12** | 4.966s | 31.91ms | 通过，56/56 精确；最高已测通过档，TTFT 仅余 34ms | [`I010`](results/int8/I010/fixed-4096-1024-c28/summary.json) |
-| INT8 slots64 | C29 | 723.54 | 361.77 | 5.116s | 32.84ms | 未通过 TTFT | [`I011`](results/int8/I011/fixed-4096-1024-c29/summary.json) |
+| BF16 slots32 | C1 | 73.95 | 36.97 | 0.771s | 12.78ms | 通过，8/8 精确 | [`F026`](results/bf16/F026/fixed-4096-1024-c1/summary.json) |
+| BF16 slots32 | C2 | 131.10 | 65.55 | 0.948s | 13.98ms | 通过，8/8 精确 | [`F026`](results/bf16/F026/fixed-4096-1024-c2/summary.json) |
+| BF16 slots32 | C4 | 213.64 | 106.82 | 1.732s | 15.15ms | 通过，8/8 精确 | [`F026`](results/bf16/F026/fixed-4096-1024-c4/summary.json) |
+| BF16 slots32 | C8 | 314.91 | 157.45 | 2.740s | 20.26ms | 通过，16/16 精确 | [`F026`](results/bf16/F026/fixed-4096-1024-c8/summary.json) |
+| BF16 slots32 | C16 | 459.35 | **229.67** | 4.346s | 28.40ms | 通过，32/32 精确；六档内最高有效吞吐 | [`F026`](results/bf16/F026/fixed-4096-1024-c16/summary.json) |
+| BF16 slots32 | C32 | 574.25 | 287.12 | 7.641s | 43.74ms | **未通过 TTFT**，64/64 精确 | [`F026`](results/bf16/F026/fixed-4096-1024-c32/summary.json) |
+| INT8 slots64 | C1 | 98.93 | 49.46 | 0.593s | 9.54ms | 通过，8/8 精确 | [`I012`](results/int8/I012/fixed-4096-1024-c1/summary.json) |
+| INT8 slots64 | C2 | 179.98 | 89.99 | 0.728s | 10.33ms | 通过，8/8 精确 | [`I012`](results/int8/I012/fixed-4096-1024-c2/summary.json) |
+| INT8 slots64 | C4 | 302.35 | 151.18 | 1.446s | 11.30ms | 通过，8/8 精确 | [`I012`](results/int8/I012/fixed-4096-1024-c4/summary.json) |
+| INT8 slots64 | C8 | 367.61 | 183.81 | 2.080s | 18.18ms | 通过，16/16 精确 | [`I012`](results/int8/I012/fixed-4096-1024-c8/summary.json) |
+| INT8 slots64 | C16 | 555.91 | **277.96** | 3.184s | 23.65ms | 通过，32/32 精确；六档内最高有效吞吐 | [`I007`](results/int8/I007/fixed-4096-1024-c16/summary.json) |
+| INT8 slots64 | C32 | 750.81 | 375.40 | 5.630s | 34.01ms | **未通过 TTFT**，64/64 精确 | [`I009`](results/int8/I009/fixed-4096-1024-c32/summary.json) |
 
-官方 BW100/SGLang BF16 基线的 4K/1K C16 双卡输出吞吐为 304.034 tok/s；本方案 BF16 同档 459.35 tok/s，算术提升 **51.08%**。这是相同并发档的对照，不是主办方确认的最终得分。官方 INT8 权重的正式性能分母尚待明确；**不能把 INT8 与 BF16 的不同权重成绩当作同精度调参收益**。官方基线与评测规则见[基线帖](https://forum.sourcefind.cn/thread/d006a0e2-b624-11f1-93f4-0242ac150003)。
+两种权重在本表的官方离散档位均为 C1–C16 通过、C32 因 TTFT 未通过，故**六档内**的最高有效吞吐分别为 BF16 **229.67**、INT8 **277.96 tok/s/卡**。这不否定实验档案中对 C16–C32 之间的细扫，但本公开表按本次要求只放六档。BF16 官方同档双卡基线 C1/C8/C16/C32 分别为 21.195/182.734/304.034/433.847 tok/s；本方案 BF16 同档算术提升分别为 **+248.89%/+72.33%/+51.08%/+32.36%**，但 C32 未过 SLA，不能当作有效吞吐榜成绩。这不是主办方确认的最终得分。官方 INT8 权重的正式性能分母尚待明确；**不能把 INT8 与 BF16 的不同权重成绩当作同精度调参收益**。官方基线与评测规则见[基线帖](https://forum.sourcefind.cn/thread/d006a0e2-b624-11f1-93f4-0242ac150003)。
 
 ## 同 INT8 权重的优化前后
 
@@ -41,11 +47,40 @@ FA3、HCU KV layout、连续 FA、EAGLE 和槽位设置是**组合优化**，下
 
 INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本持平；公开 ShareGPT C64 则从 slots32 的 603.49 提高到 slots64 的 797.94 tok/s（+32.22%）。[固定档审计](results/aggregate/int8-slots64-fixed-20261015.json) · [ShareGPT 审计](results/aggregate/int8-slots64-sharegpt-20261015.json)。公开 ShareGPT 文件身份尚未获主办方确认，**不能直接称为正式 ShareGPT 赛分**。
 
-## 长输入与测试边界
+## 长输入：64K 输入 / 1K 输出
 
-- BF16 slots32：完整 64K/1K C1 为 37.55 tok/s、C2 为 48.14 tok/s，均通过当前均值 SLA（TTFT `<20s`、TPOT `<60ms`）；C4 的 TTFT 25.15s 未通过。[C1](results/bf16/F023/fixed-65536-1024-c1/summary.json) · [C2](results/bf16/F029/fixed-65536-1024-c2/summary.json) · [C4](results/bf16/F029/fixed-65536-1024-c4/summary.json)。按实验计划，不再向上补测 64K。
-- INT8 slots64：完整 64K/1K C1 为 44.68 tok/s，8/8 精确，通过当前均值 SLA。[I008](results/int8/I008/fixed-65536-1024-c1/summary.json)。更高并发未测。
+当前均值工作 SLA 为 TTFT `<20s` 且 TPOT `<60ms`。下表是**完整 65536/1024 token 请求**，不是短输出的容量 smoke。按用户确认，本阶段只整理已经测得的 64K 数据，不新增更高并发测试。
+
+| 权重/配置 | 并发 | 双卡输出 tok/s | 单卡输出 tok/s | mean TTFT | mean TPOT | 工作 SLA | 证据 |
+|---|---:|---:|---:|---:|---:|---|---|
+| BF16 slots32 | C1 | 37.55 | 18.78 | 14.081s | 12.89ms | 通过，8/8 精确 | [`F023`](results/bf16/F023/fixed-65536-1024-c1/summary.json) |
+| BF16 slots32 | C2 | 48.14 | 24.07 | 16.023s | 25.86ms | 通过，8/8 精确 | [`F029`](results/bf16/F029/fixed-65536-1024-c2/summary.json) |
+| BF16 slots32 | C4 | 55.28 | 27.64 | 25.150s | 46.37ms | **未通过 TTFT**，8/8 精确 | [`F029`](results/bf16/F029/fixed-65536-1024-c4/summary.json) |
+| INT8 slots64 | C1 | 44.68 | 22.34 | 11.268s | 11.39ms | 通过，8/8 精确；C2 及以上未测 | [`I008`](results/int8/I008/fixed-65536-1024-c1/summary.json) |
+
+BF16 已测到 C4 失败，不再向上加压；INT8 只完成 C1，**不能宣称其 64K 最大 SLA 并发为 C1**。BF16 C1 对官方同档双卡基线 13.616 tok/s 的算术提升约 175.78%，但正式评分仍需对齐轮数与数据口径。INT8 C1 不拿不同权重的官方 BF16 基线直接当作已确认的 INT8 提升率。
+
+## ShareGPT 标准数据集
+
+赛题要求测 C1/C4/C16/C32/C64，记录吞吐、TTFT、TPOT 与成功率；**没有为 ShareGPT 单独给出数值 SLA**，不能直接套用随机 4K 的 5s/50ms。下面使用公开 ShareGPT 文件，正式请求每档 1000 条、预热 `2×并发`，目前每档只做 1 轮；官方基线教程写 3 轮，因此下表仍是筛选结果。公开文件是否与主办方最终指定文件完全一致，尚未确认。
+
+| 权重/配置 | 并发 | 双卡输出 tok/s | 单卡输出 tok/s | mean TTFT | mean TPOT | 完成 | 原始运行 |
+|---|---:|---:|---:|---:|---:|---:|---|
+| BF16 slots32 | C1 | 61.09 | 30.54 | 240.78ms | 17.04ms | 1000/1000 | SG014 |
+| BF16 slots32 | C4 | 200.27 | 100.14 | 243.18ms | 21.11ms | 1000/1000 | SG013 |
+| BF16 slots32 | C16 | 420.52 | 210.26 | 285.19ms | 40.05ms | 1000/1000 | SG013 |
+| BF16 slots32 | C32 | 552.63 | 276.31 | 461.22ms | 61.42ms | 1000/1000 | SG008 |
+| BF16 slots32 | C64 | 552.00 | 276.00 | 11232.45ms | 61.00ms | 1000/1000 | SG011 |
+| INT8 slots64 | C64 | **797.94** | **398.97** | 557.75ms | 90.59ms | 1000/1000 | I004 |
+
+按此前约定，INT8 的 ShareGPT 只保留 C64，不补跑 C1/C4/C16/C32 的 1000 请求档。BF16 C64 的吞吐与 C32 接近，但 TTFT 明显恶化；不可只看吞吐而忽略时延。INT8 C64 的 [同权重 A/B](results/aggregate/int8-opt-vs-ref-sharegpt-20261015.json) 和 [slots32/64 对照](results/aggregate/int8-slots64-sharegpt-20261015.json) 已在仓库中；BF16 C32/C64 的 [审计汇总](results/aggregate/sharegpt-slots32-20261014.json)与[槽位对照](results/aggregate/sharegpt-c64-slots-20261015.json)另附。
+
+官方 BW100/SGLang BF16 ShareGPT 双卡基线 C1/C4/C16/C32/C64 分别为 21.454/106.207/307.450/435.996/528.158 tok/s。本表 BF16 同档算术提升依次为 **+184.72%/+88.57%/+36.78%/+26.75%/+4.51%**；由于公开数据文件身份和轮数尚未与官方完全对齐，这些只是参考对照，不是正式榜单提升率。
+
+## 尚未完成的验证
+
 - BF16 的完整精度准入尚未在最终 slots32 配置上完成；既有 GSM8K 结果属于另一配置且严格协议存在截断，**不可移植为本配置的精度证明**。INT8 尚未做完整精度评测。最终性能方案确定后再分别验证两种权重。
+- 固定长度和 ShareGPT 当前均为 1 轮正式筛选；提交前若要求 3 轮，须在最终配置上重跑，不把单轮统计冒充正式三轮成绩。
 - 本仓库先公开脚本、逐档摘要和审计汇总。完整逐请求 JSONL、服务器日志、硬件快照仍保存在实验工作区，尚未纳入本次公开提交；摘要不能替代正式要求的原始日志。脚本输出 `summary.json` 内静态 `method` 文案仍写“三轮”，应以实际 `measure_rounds: 1`、逐轮记录和 runner 参数为准。
 
 ## 复现入口
@@ -55,16 +90,40 @@ INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本�
 ```bash
 # BF16：物理 DCU2/3、slots32
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38 \
-  FIXED_CONCURRENCIES='1 8 16 32' FIXED_MEASURE_ROUNDS=1 \
+  FIXED_CONCURRENCIES='1 2 4 8 16 32' FIXED_MEASURE_ROUNDS=1 \
   bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots32_no_custom_ar
 
 # 官方 INT8 权重：物理 DCU2/3、slots64
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
   MODEL_PATH=/data1/model/Qwen3.8-27B-Channel-INT8-w8a8 \
-  SERVED_MODEL_NAME=qwen38-int8 FIXED_CONCURRENCIES='16 27 28 29' \
+  SERVED_MODEL_NAME=qwen38-int8 FIXED_CONCURRENCIES='1 2 4 8 16 32' \
   FIXED_MEASURE_ROUNDS=1 \
   bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
+  fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
+
+# 长输入：只复现当前已有档位；两种权重须分开运行
+DCU_DEVICES=2,3 CONTAINER=zk-qwen38 \
+  FIXED_INPUT_LEN=65536 FIXED_SMOKE_64K=1 FIXED_CONCURRENCIES='1 2 4' \
+  FIXED_MEASURE_ROUNDS=1 \
+  bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
+  fa3_hcu_contigfa_eagle314_slots32_no_custom_ar
+DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
+  MODEL_PATH=/data1/model/Qwen3.8-27B-Channel-INT8-w8a8 \
+  SERVED_MODEL_NAME=qwen38-int8 FIXED_INPUT_LEN=65536 FIXED_SMOKE_64K=1 \
+  FIXED_CONCURRENCIES='1' FIXED_MEASURE_ROUNDS=1 \
+  bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
+  fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
+
+# ShareGPT：须先核对公开文件哈希，用户当前仅要求 INT8 C64
+DCU_DEVICES=2,3 CONTAINER=zk-qwen38 SHAREGPT_ROUNDS=1 \
+  SHAREGPT_CONCURRENCIES='1 4 16 32 64' \
+  bash /data/zk/qwen38/scripts/run_sharegpt_round.sh <new-run-id> \
+  fa3_hcu_contigfa_eagle314_slots32_no_custom_ar
+DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
+  MODEL_PATH=/data1/model/Qwen3.8-27B-Channel-INT8-w8a8 \
+  SERVED_MODEL_NAME=qwen38-int8 SHAREGPT_ROUNDS=1 SHAREGPT_CONCURRENCIES='64' \
+  bash /data/zk/qwen38/scripts/run_sharegpt_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
 ```
 
