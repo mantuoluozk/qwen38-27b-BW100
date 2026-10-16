@@ -49,16 +49,18 @@ INT8 slots64 在固定 4K C16 为 555.91 tok/s，较 slots32 的 555.62 基本�
 
 ## 长输入：64K 输入 / 1K 输出
 
-当前均值工作 SLA 为 TTFT `<20s` 且 TPOT `<60ms`。下表是**完整 65536/1024 token 请求**，不是短输出的容量 smoke。按用户确认，本阶段只整理已经测得的 64K 数据，不新增更高并发测试。
+当前均值工作 SLA 为 TTFT `<20s` 且 TPOT `<60ms`。下表是**完整 65536/1024 token 请求**，不是短输出的容量 smoke。INT8 从已有 C1 继续测到 C2 通过、C4 首次未通过后停止；BF16 也在 C4 首次未通过后停止，均未继续 C8。
 
 | 权重/配置 | 并发 | 双卡输出 tok/s | 单卡输出 tok/s | mean TTFT | mean TPOT | 工作 SLA | 证据 |
 |---|---:|---:|---:|---:|---:|---|---|
 | BF16 slots32 | C1 | 37.55 | 18.78 | 14.081s | 12.89ms | 通过，8/8 精确 | [`F023`](results/bf16/F023/fixed-65536-1024-c1/summary.json) |
 | BF16 slots32 | C2 | 48.14 | 24.07 | 16.023s | 25.86ms | 通过，8/8 精确 | [`F029`](results/bf16/F029/fixed-65536-1024-c2/summary.json) |
 | BF16 slots32 | C4 | 55.28 | 27.64 | 25.150s | 46.37ms | **未通过 TTFT**，8/8 精确 | [`F029`](results/bf16/F029/fixed-65536-1024-c4/summary.json) |
-| INT8 slots64 | C1 | 44.68 | 22.34 | 11.268s | 11.39ms | 通过，8/8 精确；C2 及以上未测 | [`I008`](results/int8/I008/fixed-65536-1024-c1/summary.json) |
+| INT8 slots64 | C1 | 44.68 | 22.34 | 11.268s | 11.39ms | 通过，8/8 精确 | [`I008`](results/int8/I008/fixed-65536-1024-c1/summary.json) |
+| INT8 slots64 | C2 | 57.22 | 28.61 | 12.815s | 21.84ms | 通过，8/8 精确 | [`I013`](results/int8/I013/fixed-65536-1024-c2/summary.json) |
+| INT8 slots64 | C4 | 66.37 | 33.19 | 20.111s | 38.76ms | **未通过 TTFT**，8/8 精确 | [`I014`](results/int8/I014/fixed-65536-1024-c4/summary.json) |
 
-BF16 已测到 C4 失败，不再向上加压；INT8 只完成 C1，**不能宣称其 64K 最大 SLA 并发为 C1**。BF16 C1 对官方同档双卡基线 13.616 tok/s 的算术提升约 175.78%，但正式评分仍需对齐轮数与数据口径。INT8 C1 不拿不同权重的官方 BF16 基线直接当作已确认的 INT8 提升率。
+两种权重在本次单轮阶梯中均为 C1/C2 通过、C4 未通过，因此**最高已测通过档是 C2**，不等于多轮稳定上限。INT8 C4 的 TTFT 仅超门槛约 111ms，尤其需要正式复测后再定论。BF16 C1 对官方同档双卡基线 13.616 tok/s 的算术提升约 175.78%，但正式评分仍需对齐轮数与数据口径。INT8 C1 不拿不同权重的官方 BF16 基线直接当作已确认的 INT8 提升率。
 
 ## ShareGPT 标准数据集
 
@@ -102,7 +104,7 @@ DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
   bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
 
-# 长输入：只复现当前已有档位；两种权重须分开运行
+# 长输入：复现已测阶梯；两种权重须分开运行，C4 未过后停止
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38 \
   FIXED_INPUT_LEN=65536 FIXED_SMOKE_64K=1 FIXED_CONCURRENCIES='1 2 4' \
   FIXED_MEASURE_ROUNDS=1 \
@@ -111,7 +113,7 @@ DCU_DEVICES=2,3 CONTAINER=zk-qwen38 \
 DCU_DEVICES=2,3 CONTAINER=zk-qwen38-int8 \
   MODEL_PATH=/data1/model/Qwen3.8-27B-Channel-INT8-w8a8 \
   SERVED_MODEL_NAME=qwen38-int8 FIXED_INPUT_LEN=65536 FIXED_SMOKE_64K=1 \
-  FIXED_CONCURRENCIES='1' FIXED_MEASURE_ROUNDS=1 \
+  FIXED_CONCURRENCIES='1 2 4' FIXED_MEASURE_ROUNDS=1 \
   bash /data/zk/qwen38/scripts/run_fixed_round.sh <new-run-id> \
   fa3_hcu_contigfa_eagle314_slots64_no_custom_ar
 
