@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "formal_requests": 1262,
+  "warmup_requests": 1078,
+  "original_packages_reverified": true,
+  "raw_new_sha256": "ec26ac8dc3920675e8e60661c0ea12f6a17db7db3f701ba33f9c0b1899373090",
+  "historical_raw_sha256": "b6b730022c8e0d72cfc73a0c97e0617301aee664a21024923a907b5a92134413",
+  "archives": {
+    "supplement-20261021-original-logs.tar.gz": {
+      "files": 228,
+      "all_members_hashed": true
+    },
+    "historical-sla-neighbors-20261015.tar.gz": {
+      "files": 90,
+      "all_members_hashed": true
+    }
+  }
+}

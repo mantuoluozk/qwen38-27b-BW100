@@ -1,0 +1,111 @@
+{
+  "fixed": [
+    {
+      "input_len": 4096,
+      "concurrency": 1,
+      "output_tps_total": 21.195,
+      "ttft_mean_s": 0.807,
+      "tpot_mean_ms": 46.437
+    },
+    {
+      "input_len": 4096,
+      "concurrency": 8,
+      "output_tps_total": 182.734,
+      "ttft_mean_s": 3.816,
+      "tpot_mean_ms": 40.076
+    },
+    {
+      "input_len": 4096,
+      "concurrency": 16,
+      "output_tps_total": 304.034,
+      "ttft_mean_s": 6.801,
+      "tpot_mean_ms": 46.009
+    },
+    {
+      "input_len": 4096,
+      "concurrency": 32,
+      "output_tps_total": 433.847,
+      "ttft_mean_s": 12.748,
+      "tpot_mean_ms": 61.331
+    },
+    {
+      "input_len": 4096,
+      "concurrency": 64,
+      "output_tps_total": 545.911,
+      "ttft_mean_s": 24.588,
+      "tpot_mean_ms": 93.002
+    },
+    {
+      "input_len": 4096,
+      "concurrency": 128,
+      "output_tps_total": 577.456,
+      "ttft_mean_s": 60.41,
+      "tpot_mean_ms": 135.236
+    },
+    {
+      "input_len": 65536,
+      "concurrency": 1,
+      "output_tps_total": 13.616,
+      "ttft_mean_s": 19.266,
+      "tpot_mean_ms": 54.682
+    },
+    {
+      "input_len": 65536,
+      "concurrency": 8,
+      "output_tps_total": 39.128,
+      "ttft_mean_s": 86.563,
+      "tpot_mean_ms": 120.015
+    },
+    {
+      "input_len": 65536,
+      "concurrency": 16,
+      "output_tps_total": 39.199,
+      "ttft_mean_s": 243.047,
+      "tpot_mean_ms": 119.859
+    },
+    {
+      "input_len": 65536,
+      "concurrency": 32,
+      "output_tps_total": 39.201,
+      "ttft_mean_s": 556.433,
+      "tpot_mean_ms": 119.849
+    }
+  ],
+  "sharegpt": [
+    {
+      "concurrency": 1,
+      "output_tps_total": 21.454,
+      "ttft_mean_ms": 200.866,
+      "tpot_mean_ms": 45.727
+    },
+    {
+      "concurrency": 4,
+      "output_tps_total": 106.207,
+      "ttft_mean_ms": 189.951,
+      "tpot_mean_ms": 35.851
+    },
+    {
+      "concurrency": 16,
+      "output_tps_total": 307.45,
+      "ttft_mean_ms": 189.46,
+      "tpot_mean_ms": 49.725
+    },
+    {
+      "concurrency": 32,
+      "output_tps_total": 435.996,
+      "ttft_mean_ms": 199.106,
+      "tpot_mean_ms": 69.259
+    },
+    {
+      "concurrency": 64,
+      "output_tps_total": 528.158,
+      "ttft_mean_ms": 215.717,
+      "tpot_mean_ms": 103.927
+    }
+  ],
+  "source_archived_document_sha256": "1bdcb3cffda4466bab43776e5493d0ddb1938c655513fcb3aa2bc5fc8d2c5b8f",
+  "source_url": "https://forum.sourcefind.cn/thread/d006a0e2-b624-11f1-93f4-0242ac150003",
+  "statistic": "mean",
+  "precision": "official BF16",
+  "cards": 2
+}
