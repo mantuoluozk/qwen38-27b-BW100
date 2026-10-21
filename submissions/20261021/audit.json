@@ -1,7 +1,7 @@
 {
   "date": "2026-10-21",
   "batch": "SUPPLEMENT_20261021_01",
-  "generated_at": "2026-10-21T05:51:44.860635+00:00",
+  "generated_at": "2026-10-21T05:55:48.095017+00:00",
   "baseline_reference": "Official BF16 BW100/SGLang mean table in archived 社区qwen3.8挑战赛.md",
   "baseline_url": "https://forum.sourcefind.cn/thread/d006a0e2-b624-11f1-93f4-0242ac150003",
   "baseline_choice_confirmed_by_user_20261021": true,

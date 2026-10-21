@@ -37,7 +37,7 @@ def load(path):
 
 
 def write_json(path, data):
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 
 
 def audit_fixed(path):
@@ -224,7 +224,7 @@ def main():
             'historical_neighbor_diagnostics': diagnostics,
             'sharegpt': old['sharegpt_single_round'], 'gsm8k': accuracy,
         })
-        (args.output / f'{precision}.md').write_text(text, encoding='utf-8')
+        (args.output / f'{precision}.md').write_text(text, encoding='utf-8', newline='\n')
         overall['precisions'][precision] = {'complete': complete, 'missing_fixed': missing,
                                            'missing_boundary': missing_boundaries,
                                            'new_tiers_audited': len(new),
